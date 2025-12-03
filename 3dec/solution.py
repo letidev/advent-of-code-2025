@@ -1,32 +1,31 @@
+import time
+
 with open("test.txt") as f:
     lines = f.read().splitlines()
 
 ans = 0
 
+# NUM_SIZE = 2 # Part 1
+NUM_SIZE = 12
+
+start = time.time()
 
 for line in lines:
-    batteries = {1: [], 2: [], 3: [], 4: [], 5: [], 6: [], 7: [], 8: [], 9: []}
+    num = 0
+    idx = 0
 
-    for i in range(len(line)):
-        d = int(line[i])
+    for num_dig in reversed(range(0, NUM_SIZE)):
+        mx = 0
+        for i in range(idx, len(line) - num_dig):
+            digit = int(line[i])
+            if digit > mx:
+                mx = digit
+                idx = i + 1
 
-        batteries[d].append(i)
+        num = num * 10 + mx
 
-    found = False
+    ans += num
 
-    for i in reversed(range(1, 10)):
-        for j in reversed(range(1, 10)):
-            if (
-                len(batteries[i]) > 0
-                and len(batteries[j]) > 0
-                and (i != j or (i == j and len(batteries[i]) > 1))
-                and batteries[i][0] < batteries[j][-1]
-            ):
-                ans += i * 10 + j
-                found = True
-                break
-
-        if found:
-            break
-
+end = time.time()
+print(f"--- {end - start} seconds ---")
 print(ans)
