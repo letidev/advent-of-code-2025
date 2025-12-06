@@ -1,5 +1,4 @@
 import re
-from operator import mul
 
 with open("test.txt") as f:
     lines = f.read().splitlines()
