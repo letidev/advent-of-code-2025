@@ -33,8 +33,11 @@ pairs.sort(key=lambda x: x[2])
 
 i = 1
 circuits = [{pairs[0][0], pairs[0][1]}]
+all_in_one = False
 
-while i < NUM_PAIRS:
+
+# while i < NUM_PAIRS: # Part 1
+while not all_in_one:  # Part 2
     p, q = pairs[i][0], pairs[i][1]
 
     cp = -1
@@ -71,7 +74,13 @@ while i < NUM_PAIRS:
 
     i += 1
 
+    # part 2
+    if len(circuits) == 1 and len(circuits[0]) == len(lines):
+        print(p[0] * q[0])
+        all_in_one = True
+    # end part 2
 
-circuits.sort(key=lambda x: len(x), reverse=True)
 
-print(len(circuits[0]) * len(circuits[1]) * len(circuits[2]))
+# Part 1
+# circuits.sort(key=lambda x: len(x), reverse=True)
+# print(len(circuits[0]) * len(circuits[1]) * len(circuits[2]))
