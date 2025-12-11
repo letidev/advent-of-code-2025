@@ -3,27 +3,36 @@ with open("test.txt") as f:
 
 nodes = {}
 
-
-def dfs(start, end, path, allPaths):
-    path.append(start)
-
-    if start == end:
-        allPaths.append(path.copy())
-    else:
-        for node in nodes[start]:
-            if node not in path:
-                dfs(node, end, path, allPaths)
-
-    path.pop()
-
-
 for line in lines:
     start, ends = line.split(": ")
     ends = set(ends.split(" "))
     nodes[start] = ends
 
-path = []
-allPaths = []
-dfs("you", "out", path, allPaths)
 
-print(len(allPaths))
+def dfs(start, end):
+    if start == end:
+        return 1
+
+    key = (start, end)
+    if key in memo:
+        return memo[key]
+
+    total = 0
+
+    if start in nodes:
+        for adj in nodes[start]:
+            total += dfs(adj, end)
+
+    memo[key] = total
+    return total
+
+
+# Part 1
+memo = {}
+print(dfs("you", "out"))
+
+
+# Part 2
+memo = {}
+print(dfs("svr", "fft") * dfs("fft", "dac") * dfs("dac", "out"))
+print(dfs("svr", "dac") * dfs("dac", "fft") * dfs("fft", "out"))
